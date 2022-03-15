@@ -2,34 +2,38 @@ require 'rails_helper'
 
 RSpec.describe LocationController, type: :controller do
   describe 'GET #show' do
-    context 'when location params are present' do
-      let(:location_params) { { city: 'New York', state: 'NY', country: 'USA' } }
-      let(:permitted_params) { ActionController::Parameters.new(location_params).permit(:city, :state, :country) }
-      let(:mock_location) { Location.new(location_params) }
-      let(:mock_weather) { Weather.new('temperature' => 25, 'low_temperature' => 20, 'high_temperature' => 30, 'cached_at' => Time.now) }
+    let(:valid_params) { { city: 'New York', state: 'NY', country: 'USA', zip: '10001' } }
+    let(:invalid_params) { { city: '', state: '', country: '', zip: '' } }
+    let(:cache_key) { valid_params[:zip] }
+    let(:mock_weather) { instance_double('Weather', temperature: 25) }
 
+    context 'when location params are valid' do
       before do
-        allow(Location).to receive(:new).with(permitted_params).and_return(mock_location)
-        allow(LocationLookup).to receive(:lookup).with(mock_location).and_return([40.7128, -74.0060])
-        allow(WeatherLookup).to receive(:lookup).with(anything, anything).and_return(mock_weather)
-        get :show, params: location_params
+        allow(LocationLookup).to receive(:lookup).and_return([40.7128, -74.0060])
+        allow(WeatherLookup).to receive(:lookup).and_return(mock_weather)
+        allow(Rails.cache).to receive(:exist?).with(cache_key).and_return(false)
+        allow(Rails.cache).to receive(:fetch).with(cache_key, expires_in: 30.minutes).and_return(mock_weather)
       end
 
-      it 'assigns @location' do
-        expect(assigns(:location)).to eq(mock_location)
+      it 'sets @location' do
+        get :show, params: valid_params
+        expect(assigns(:location)).to have_attributes(valid_params)
       end
 
-      it 'assigns @weather' do
+      it 'checks the cache for existing weather data' do
+        get :show, params: valid_params
+        expect(assigns(:cache_hit)).to be false
+      end
+
+      it 'fetches weather data and caches it' do
+        get :show, params: valid_params
         expect(assigns(:weather)).to eq(mock_weather)
       end
     end
 
-    context 'when location params are not present' do
-      before do
-        get :show
-      end
-
-      it 'does not assign @weather' do
+    context 'when location params are invalid' do
+      it 'does not set @weather' do
+        get :show, params: invalid_params
         expect(assigns(:weather)).to be_nil
       end
     end

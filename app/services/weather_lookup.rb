@@ -18,13 +18,11 @@ class WeatherLookup
     temp = body['main']['temp']
     low_temp = body['main']['temp_min']
     high_temp = body['main']['temp_max']
-    puts temp
 
     Weather.new(
       'temperature' => temp,
       'low_temperature' => low_temp,
-      'high_temperature' => high_temp,
-      'cached_at' => Time.now
+      'high_temperature' => high_temp
     )
   end
 end

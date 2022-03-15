@@ -14,23 +14,23 @@
     <% end %>
 
     <%= label :city, "City:" %><br>
-    <%= text_field_tag(:city ) %><br>
+    <%= text_field_tag(:city, @location.city ) %><br>
 
     <%= label :state, "State:" %><br>
-    <%= text_field_tag(:state) %><br>
+    <%= text_field_tag(:state, @location.state) %><br>
 
     <%= label :country, "Country:" %><br>
-    <%= text_field_tag(:country) %><br>
+    <%= text_field_tag(:country, @location.country) %><br>
 
     <%= label :zip, "Zip:" %><br>
-    <%= text_field_tag(:zip) %><br>
-
+    <%= text_field_tag(:zip, @location.zip) %><br>
+    </br>
     <%= submit_tag("Get My Weather") %>
 <% end %>
 
 <% if @weather.present? %>
     <ul>
-        <li>Cached?: <%= @weather.cached_at.present? %></li>
+        <li>Cached?: <%= @cache_hit %></li>
         <li>Current Temperature: <%= @weather.temperature %></li>
         <li>High: <%= @weather.high_temperature %></li>
         <li>Low: <%= @weather.low_temperature %></li>
