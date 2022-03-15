@@ -8,4 +8,15 @@ class Weather
 
   # Validates the presence of the temperature, low temperature, and high temperature.
   validates :temperature, :low_temperature, :high_temperature, :city, presence: true
+
+  # Required since this model does not subclass ActiveRecord and it's
+  # required to support testing
+  def attributes
+    {
+      temperature:,
+      low_temperature:,
+      high_temperature:,
+      city:
+    }
+  end
 end

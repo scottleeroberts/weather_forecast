@@ -1,23 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe LocationController, type: :controller do
+  before do
+    Rails.cache.clear
+  end
+
   describe 'GET #show' do
     context 'with valid location parameters' do
       let(:valid_params) { { city: 'New York', state: 'NY', country: 'USA', zip: '10001' } }
-      let(:location) { instance_double(Location, valid?: true, zip: '10001') }
-      let(:weather) { double('WeatherData') }
-
-      before do
-        # Allow Location.new to be called with no arguments
-        allow(Location).to receive(:new).with(no_args).and_return(Location.new)
-
-        # Ensure that the parameters are converted to a hash
-        allow(controller).to receive(:location_params).and_return(valid_params.stringify_keys)
-        allow(Location).to receive(:new).with(valid_params.stringify_keys).and_return(location)
-        allow(LocationLookup).to receive(:lookup).with(location).and_return([40.7128, -74.0060])
-        allow(WeatherLookup).to receive(:lookup).and_return(weather)
-        allow(Rails.cache).to receive(:exist?).and_return(false)
-        allow(Rails.cache).to receive(:fetch).and_return(weather)
+      let(:location) { Location.new(valid_params) }
+      let(:weather_attributes) do
+        { city: 'New York', high_temperature: 16.77, low_temperature: 14.4, temperature: 15.67 }
+      end
+      let(:weather) do
+        Weather.new(weather_attributes)
       end
 
       it 'assigns @location' do
@@ -28,7 +24,7 @@ RSpec.describe LocationController, type: :controller do
 
       it 'assigns @weather' do
         get :show, params: valid_params
-        expect(assigns(:weather)).to eq(weather)
+        expect(assigns(:weather).attributes).to eq(weather_attributes)
       end
 
       it 'assigns @cache_hit' do
