@@ -10,26 +10,32 @@ RSpec.describe LocationController, type: :controller do
       let(:valid_params) { { city: 'New York', state: 'NY', country: 'USA', zip: '10001' } }
       let(:location) { Location.new(valid_params) }
       let(:weather_attributes) do
-        { city: 'New York', high_temperature: 16.77, low_temperature: 14.4, temperature: 15.67 }
+        { city: 'New York', high_temperature: 16.98, low_temperature: 14.4, temperature: 15.82 }
       end
       let(:weather) do
         Weather.new(weather_attributes)
       end
 
       it 'assigns @location' do
-        get :show, params: valid_params
-        expect(assigns(:location)).to be_a(Location)
-        expect(assigns(:location)).not_to be_valid # reset to blank
+        VCR.use_cassette('weather_lookup') do
+          get :show, params: valid_params
+          expect(assigns(:location)).to be_a(Location)
+          expect(assigns(:location)).not_to be_valid # reset to blank
+        end
       end
 
       it 'assigns @weather' do
-        get :show, params: valid_params
-        expect(assigns(:weather).attributes).to eq(weather_attributes)
+        VCR.use_cassette('weather_lookup') do
+          get :show, params: valid_params
+          expect(assigns(:weather).attributes).to eq(weather_attributes)
+        end
       end
 
       it 'assigns @cache_hit' do
-        get :show, params: valid_params
-        expect(assigns(:cache_hit)).to eq(false)
+        VCR.use_cassette('weather_lookup') do
+          get :show, params: valid_params
+          expect(assigns(:cache_hit)).to eq(false)
+        end
       end
     end
 

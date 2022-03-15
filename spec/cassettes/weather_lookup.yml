@@ -1,0 +1,90 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.openweathermap.org/geo/1.0/direct?appid=9f4af7832c15d9048ae1a43dcae3b5a8&q=New%20York,NY,USA
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.9.0
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Sun, 17 Mar 2024 19:44:14 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '707'
+      Connection:
+      - keep-alive
+      X-Cache-Key:
+      - "/geo/1.0/direct?q=new+york%2cny%2cusa"
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        W3sibmFtZSI6Ik5ldyBZb3JrIENvdW50eSIsImxvY2FsX25hbWVzIjp7ImhlIjoi16DXmdeVINeZ15XXqNenIiwiZXMiOiJOdWV2YSBZb3JrIiwidmkiOiJOZXcgWW9yayIsInRlIjoi4LCo4LGN4LCv4LGC4LCv4LGK4LCw4LGN4LCV4LGNIiwiY2EiOiJOb3ZhIFlvcmsiLCJiZSI6ItCd0YzRji3QgdGA0LoiLCJydSI6ItCd0YzRji3QmdC+0YDQuiIsImVvIjoiTm92am9ya28iLCJwbCI6Ik5vd3kgSm9yayIsImtvIjoi64m07JqVIiwiaGkiOiLgpKjgpY3gpK/gpYLgpK/gpYrgpLDgpY3gpJXgpY0iLCJlbCI6Is6dzq3OsSDOpc+Mz4HOus63IiwiYXIiOiLZhtmK2YjZitmI2LHZgyIsImNzIjoiTmV3IFlvcmsiLCJlbiI6Ik5ldyBZb3JrIiwiY3kiOiJFZnJvZyBOZXd5ZGQiLCJ1ayI6ItCd0YzRji3QmdC+0YDQuiIsImtuIjoi4LKo4LON4LKv4LOC4LKv4LOK4LKw4LON4LKV4LONIiwiZnIiOiJOZXcgWW9yayIsIm9jIjoiTsOydmEgWW9yayIsIml0IjoiTmV3IFlvcmsiLCJwdCI6Ik5vdmEgSW9ycXVlIiwiZmEiOiLZhtuM2YjbjNmI2LHaqSIsImRlIjoiTmV3IFlvcmsiLCJqYSI6IuODi+ODpeODvOODqOODvOOCryIsImlzIjoiTsO9amEgSsOzcnbDrWsiLCJ6aCI6Iue6vee6pi/ntJDntIQiLCJnbCI6Ik5vdmEgWW9yayJ9LCJsYXQiOjQwLjcxMjcyODEsImxvbiI6LTc0LjAwNjAxNTIsImNvdW50cnkiOiJVUyIsInN0YXRlIjoiTmV3IFlvcmsifV0=
+  recorded_at: Sun, 17 Mar 2024 19:44:14 GMT
+- request:
+    method: get
+    uri: http://api.openweathermap.org/data/2.5/weather?appid=9f4af7832c15d9048ae1a43dcae3b5a8&lat=40.7127281&lon=-74.0060152&units=metric
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.9.0
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Sun, 17 Mar 2024 19:44:14 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '483'
+      Connection:
+      - keep-alive
+      X-Cache-Key:
+      - "/data/2.5/weather?lat=40.71&lon=-74.01&units=metric"
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST
+    body:
+      encoding: UTF-8
+      string: '{"coord":{"lon":-74.006,"lat":40.7127},"weather":[{"id":800,"main":"Clear","description":"clear
+        sky","icon":"01d"}],"base":"stations","main":{"temp":15.82,"feels_like":14.24,"temp_min":14.4,"temp_max":16.98,"pressure":1001,"humidity":30},"visibility":10000,"wind":{"speed":10.29,"deg":270,"gust":14.92},"clouds":{"all":0},"dt":1710704116,"sys":{"type":2,"id":2008101,"country":"US","sunrise":1710673417,"sunset":1710716692},"timezone":-14400,"id":5128581,"name":"New
+        York","cod":200}'
+  recorded_at: Sun, 17 Mar 2024 19:44:14 GMT
+recorded_with: VCR 6.2.0
