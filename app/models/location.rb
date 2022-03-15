@@ -7,7 +7,7 @@ class Location
   attr_accessor :city, :state, :country, :zip
 
   # Validates the presence of the city, state, country, and zip.
-  validates :city, :state, :country, :zip, presence: true
+  validates :city, :state, :country, presence: true
 
   # validate the zip is exactly 5 digits
   validates :zip, length: { is: 5 }
