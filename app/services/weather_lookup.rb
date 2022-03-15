@@ -1,4 +1,16 @@
-class WeatherLookup
+class WeatherLooku # WeatherLookup Class
+  #
+  # Provides a method to lookup weather data for a given latitude and longitude
+  # using the OpenWeatherMap Weather API.
+  # Base URL of the OpenWeatherMap Weather API endpoint
+
+  # Looks up weather data for a given latitude and longitude.
+  #
+  # @param lat [Float] the latitude of the location.
+  # @param lon [Float] the longitude of the location.
+  # @return [Weather] a Weather object containing the temperature, low temperature,
+  #   and high temperature for the location.
+  # @raise [StandardError] if the API request is unsuccessful or if the response format is invalid.
   BASE_URL = 'http://api.openweathermap.org/data/2.5/weather'.freeze
 
   def self.lookup(lat, lon)
