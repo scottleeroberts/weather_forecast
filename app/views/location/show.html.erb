@@ -1,2 +1,38 @@
-<h1>Location#show</h1>
-<p>Find me in app/views/location/show.html.erb</p>
+<h1>Weather</h1>
+
+<%= form_for root_path(@location), method: :get do |f| %>
+    <% if @location.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@location.errors.count, "error") %> Errors Detected:</h2>
+
+        <ul>
+        <% @location.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= label :city, "City:" %><br>
+    <%= text_field_tag(:city ) %><br>
+
+    <%= label :state, "State:" %><br>
+    <%= text_field_tag(:state) %><br>
+
+    <%= label :country, "Country:" %><br>
+    <%= text_field_tag(:country) %><br>
+
+    <%= label :zip, "Zip:" %><br>
+    <%= text_field_tag(:zip) %><br>
+
+    <%= submit_tag("Get My Weather") %>
+<% end %>
+
+<% if @weather.present? %>
+    <ul>
+        <li>Cached?: <%= @weather.cached_at.present? %></li>
+        <li>Current Temperature: <%= @weather.temperature %></li>
+        <li>High: <%= @weather.high_temperature %></li>
+        <li>Low: <%= @weather.low_temperature %></li>
+    </ul>
+<% end %>
