@@ -4,7 +4,7 @@
      <!-- show errors if any - these will come from the location model valiation -->
     <% if @location.errors.any? %>
       <div id="error_explanation">
-        <h2><%= pluralize(@location.errors.count, "error") %> Errors Detected:</h2>
+        <h2> Errors Detected:</h2>
 
         <ul>
         <% @location.errors.full_messages.each do |message| %>
@@ -33,6 +33,7 @@
 
 <!-- Show the weather if it is present -->
 <% if @weather.present? %>
+    <h2>Weather for <%= @weather.city %></h2>
     <ul>
         <li>Cached?: <%= @cache_hit %></li>
         <li>Current Temperature: <%= @weather.temperature %></li>
