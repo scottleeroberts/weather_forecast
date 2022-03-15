@@ -8,7 +8,7 @@ Welcome to the Weather Forecast repository! This project is designed to provide 
     - Search by City: Easily search for weather forecasts by address
     - Data is cached for 30 minutes to reduce the number of API calls and improve performance.
 
-## Screenshot 
+## Screenshot
 ![Screenshot](public/screenshot.png)
 
 ## Getting Started
@@ -31,6 +31,10 @@ Testing can be run with the following command:
 ```
 docker compose run --rm --no-deps web /bin/bash -c "bundle exec rspec"
 ```
+
+Note: VCR is used in specs to minimize the amount of Mocking and increase the
+quality of the tests. The first time the tests are run, the VCR will record the
+requests and responses to a file. Subsequent tests will use that recorded data.
 
 
 ## Design Notes
