@@ -1,6 +1,7 @@
 <h1>Weather</h1>
 
 <%= form_for root_path(@location), method: :get do |f| %>
+     <!-- show errors if any - these will come from the location model valiation -->
     <% if @location.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(@location.errors.count, "error") %> Errors Detected:</h2>
@@ -13,6 +14,7 @@
       </div>
     <% end %>
 
+    <!-- Form fields for user to enter city-->
     <%= label :city, "City:" %><br>
     <%= text_field_tag(:city, @location.city ) %><br>
 
@@ -22,12 +24,14 @@
     <%= label :country, "Country:" %><br>
     <%= text_field_tag(:country, @location.country) %><br>
 
+    <!-- note: this will not be used in the weather lookup but will be used as a cache key -->
     <%= label :zip, "Zip:" %><br>
     <%= text_field_tag(:zip, @location.zip) %><br>
     </br>
     <%= submit_tag("Get My Weather") %>
 <% end %>
 
+<!-- Show the weather if it is present -->
 <% if @weather.present? %>
     <ul>
         <li>Cached?: <%= @cache_hit %></li>
