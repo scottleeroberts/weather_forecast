@@ -4,8 +4,8 @@ class Weather
   include ActiveModel::Model
 
   # Attributes for the temperature, low temperature, and high temperature.
-  attr_accessor :temperature, :low_temperature, :high_temperature
+  attr_accessor :temperature, :low_temperature, :high_temperature, :city
 
   # Validates the presence of the temperature, low temperature, and high temperature.
-  validates :temperature, :low_temperature, :high_temperature, presence: true
+  validates :temperature, :low_temperature, :high_temperature, :city, presence: true
 end

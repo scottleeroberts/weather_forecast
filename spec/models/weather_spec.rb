@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Weather do
-  subject { described_class.new(temperature: 25, low_temperature: 20, high_temperature: 30) }
+  subject { described_class.new(temperature: 25, low_temperature: 20, high_temperature: 30, city: 'New York') }
 
   it 'is valid with all attributes present' do
     expect(subject).to be_valid

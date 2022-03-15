@@ -38,7 +38,8 @@ class WeatherLookup # WeatherLookup Class
     Weather.new(
       temperature: body.dig('main', 'temp'),
       low_temperature: body.dig('main', 'temp_min'),
-      high_temperature: body.dig('main', 'temp_max')
+      high_temperature: body.dig('main', 'temp_max'),
+      city: body.dig('name')
     )
   end
 

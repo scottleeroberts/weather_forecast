@@ -2,39 +2,62 @@ require 'rails_helper'
 
 RSpec.describe LocationController, type: :controller do
   describe 'GET #show' do
-    let(:valid_params) { { city: 'New York', state: 'NY', country: 'USA', zip: '10001' } }
-    let(:invalid_params) { { city: '', state: '', country: '', zip: '' } }
-    let(:cache_key) { valid_params[:zip] }
-    let(:mock_weather) { instance_double('Weather', temperature: 25) }
+    context 'with valid location parameters' do
+      let(:valid_params) { { city: 'New York', state: 'NY', country: 'USA', zip: '10001' } }
+      let(:location) { instance_double(Location, valid?: true, zip: '10001') }
+      let(:weather) { double('WeatherData') }
 
-    context 'when location params are valid' do
       before do
-        allow(LocationLookup).to receive(:lookup).and_return([40.7128, -74.0060])
-        allow(WeatherLookup).to receive(:lookup).and_return(mock_weather)
-        allow(Rails.cache).to receive(:exist?).with(cache_key).and_return(false)
-        allow(Rails.cache).to receive(:fetch).with(cache_key, expires_in: 30.minutes).and_return(mock_weather)
+        # Allow Location.new to be called with no arguments
+        allow(Location).to receive(:new).with(no_args).and_return(Location.new)
+
+        # Ensure that the parameters are converted to a hash
+        allow(controller).to receive(:location_params).and_return(valid_params.stringify_keys)
+        allow(Location).to receive(:new).with(valid_params.stringify_keys).and_return(location)
+        allow(LocationLookup).to receive(:lookup).with(location).and_return([40.7128, -74.0060])
+        allow(WeatherLookup).to receive(:lookup).and_return(weather)
+        allow(Rails.cache).to receive(:exist?).and_return(false)
+        allow(Rails.cache).to receive(:fetch).and_return(weather)
       end
 
-      it 'sets @location' do
+      it 'assigns @location' do
         get :show, params: valid_params
-        expect(assigns(:location)).to have_attributes(valid_params)
+        expect(assigns(:location)).to be_a(Location)
+        expect(assigns(:location)).not_to be_valid # reset to blank
       end
 
-      it 'checks the cache for existing weather data' do
+      it 'assigns @weather' do
         get :show, params: valid_params
-        expect(assigns(:cache_hit)).to be false
+        expect(assigns(:weather)).to eq(weather)
       end
 
-      it 'fetches weather data and caches it' do
+      it 'assigns @cache_hit' do
         get :show, params: valid_params
-        expect(assigns(:weather)).to eq(mock_weather)
+        expect(assigns(:cache_hit)).to eq(false)
       end
     end
 
-    context 'when location params are invalid' do
-      it 'does not set @weather' do
+    context 'with invalid location parameters' do
+      let(:invalid_params) { { city: 'Invalid City' } }
+      let(:location) { instance_double(Location, valid?: false) }
+
+      before do
+        # Allow Location.new to be called with no arguments
+        allow(Location).to receive(:new).with(no_args).and_return(Location.new)
+
+        # Ensure that the parameters are converted to a hash
+        allow(controller).to receive(:location_params).and_return(invalid_params.stringify_keys)
+        allow(Location).to receive(:new).with(invalid_params.stringify_keys).and_return(location)
+      end
+
+      it 'does not assign @weather' do
         get :show, params: invalid_params
         expect(assigns(:weather)).to be_nil
+      end
+
+      it 'does not assign @cache_hit' do
+        get :show, params: invalid_params
+        expect(assigns(:cache_hit)).to be_nil
       end
     end
   end
